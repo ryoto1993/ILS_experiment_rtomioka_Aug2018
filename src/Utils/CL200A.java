@@ -78,14 +78,11 @@ public class CL200A {
         data.addAll(getBcc(data));
         data.addAll(DELIMITER);
 
-        System.out.print("PUT: ");
         sendData(data);
 
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) { e.printStackTrace(); }
-
-
 
         if (getCommand(receivedData).equals("54")) return true;
         else return false;
@@ -100,8 +97,7 @@ public class CL200A {
         data.addAll(getBcc(data));
         data.addAll(DELIMITER);
 
-        System.out.print("PUT: ");
-        sendData(data);
+        // sendData(data);
 
         try {
             Thread.sleep(500);
@@ -119,7 +115,6 @@ public class CL200A {
         data.addAll(getBcc(data));
         data.addAll(DELIMITER);
 
-        System.out.print("PUT: ");
         sendData(data);
 
         try {
@@ -133,6 +128,7 @@ public class CL200A {
     public static boolean startMeasurement() {
         boolean flag = false;
         while (!flag) {
+            setExtMode();
             fire();
             getCctData("00");
 
@@ -147,13 +143,21 @@ public class CL200A {
 
             // check error bit
             checkData = (char)(0x00 + receivedData.get(6));
-            if (checkData != ' ') {
+            /*if (checkData != ' ') {
                 flag = false;
             }
+            System.out.println("flag: " + flag);
+            */
+            System.out.println("Error: " + checkData);
+
 
             // check range bit
             checkData = (char)(0x00 + receivedData.get(7));
-            range = Integer.valueOf(checkData);
+            String tmp = "" + checkData;
+            try {
+                range = Integer.parseInt(tmp);
+            } catch (Exception e) {}
+
             switch (range) {
                 case 0:
                     flag = false;
@@ -176,7 +180,6 @@ public class CL200A {
         data.addAll(getBcc(data));
         data.addAll(DELIMITER);
 
-        System.out.print("PUT: ");
         sendData(data);
 
         try {
@@ -202,7 +205,6 @@ public class CL200A {
         data.addAll(getBcc(data));
         data.addAll(DELIMITER);
 
-        System.out.print("PUT: ");
         sendData(data);
 
         try {
@@ -224,7 +226,6 @@ public class CL200A {
         data.addAll(getBcc(data));
         data.addAll(DELIMITER);
 
-        //System.out.print("PUT: ");
         sendData(data);
 
         return true;
@@ -359,7 +360,7 @@ public class CL200A {
 
         // read index
         int index = Integer.parseInt(String.valueOf((char)(0x00 + singleData.get(5)))) - 4;
-        data *= Math.pow(1.0, index);
+        data *= Math.pow(10.0, index);
 
         return data;
     }
@@ -374,8 +375,7 @@ public class CL200A {
                         buffer = reader.readLine();
                         ArrayList<Integer> bufferData = stringToData(buffer);
                         bufferData.addAll(DELIMITER);
-                        System.out.print("GET: ");
-                        dump(bufferData);
+                        // dump(bufferData);
                         receivedData = bufferData;
                     }
                 } catch (IOException ex){

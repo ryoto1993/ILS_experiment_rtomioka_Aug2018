@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Logger {
-    static final String fileName = "calibration_ID22_20180821.csv";
+    static final String fileName = "calibration_ID22_20180822_temp.csv";
 
     private int sequence = 0;
     BufferedWriter bw;

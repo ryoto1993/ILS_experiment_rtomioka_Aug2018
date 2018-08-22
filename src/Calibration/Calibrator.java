@@ -37,6 +37,7 @@ public class Calibrator {
         dimLights.add(lights.get(21));
 
         // Calibration sequence
+        /*
         for (int setCct = 2700; setCct<=6000; setCct += 1000) {
             for (double setLum = 0.0; setLum <= 100.0; setLum += 50.0) {
                 // Dim
@@ -47,11 +48,13 @@ public class Calibrator {
                 SocketClient.dimByLights(lights);
 
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(3500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
+                // DBG
+                System.out.println("SetCCT: " + setCct + " SetLum: " + setLum );
                 // Get
                 CL200A.startMeasurement();
 
@@ -59,6 +62,33 @@ public class Calibrator {
                 System.out.println("CCT: " + CL200A.getCct());
                 logger.appendData(setLum, setCct, CL200A.getIlluminance(), CL200A.getCct());
 
+            }
+        }
+        */
+
+        for (int setLum = 10; setLum <= 100; setLum += 5) {
+            for (int setCct = 2700; setCct <= 5800; setCct += 100) {
+                // Dim
+                for (Light l : dimLights) {
+                    l.setLumPct(setLum);
+                    l.setTemperature(setCct);
+                }
+                SocketClient.dimByLights(lights);
+
+                try {
+                    Thread.sleep(3500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                // DBG
+                System.out.println("SetCCT: " + setCct + " SetLum: " + setLum);
+                // Get
+                CL200A.startMeasurement();
+
+                System.out.println("ILL: " + CL200A.getIlluminance());
+                System.out.println("CCT: " + CL200A.getCct());
+                logger.appendData(setLum, setCct, CL200A.getIlluminance(), CL200A.getCct());
             }
         }
 
