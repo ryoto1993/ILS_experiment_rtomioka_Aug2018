@@ -7,14 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class MainController implements Initializable {
     @FXML
     ListView<MenuItemModel> menu_list;
     @FXML
@@ -27,22 +26,27 @@ public class Controller implements Initializable {
         ObservableList<MenuItemModel> bookmarkModels = createMenuItemModels();
         menu_list.setItems(bookmarkModels);
 
+        // Menu list listener
         menu_list.getSelectionModel().selectedIndexProperty().addListener(
                 ( ov , old , current ) ->
                 {
-                    // リスト・ビュー内の選択項目を出力
-                    System.out.println( "Selection in the listView is : " + current);
-                    if (current.intValue() == 0) {
-                        // Read FXML
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("ils_control_pane.fxml"));
-                        try {
-                            Pane newWindow = loader.load();
-                            main_pane.setContent(newWindow);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
+                    FXMLLoader loader = null;
+                    switch (current.intValue()) {
+                        case 0:
+                            loader = new FXMLLoader(getClass().getResource("ils_control_pane.fxml"));
+                            break;
+                        case 1:
+                            loader = new FXMLLoader(getClass().getResource("ils_control_pane.fxml"));
+                            break;
                     }
+
+                    try {
+                        Pane newWindow = loader.load();
+                        main_pane.setContent(newWindow);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 }
         );
     }

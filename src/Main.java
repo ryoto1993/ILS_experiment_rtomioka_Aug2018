@@ -1,3 +1,5 @@
+import ILS.ILS;
+import Manager.Manager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class Manager extends Application {
+public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -31,7 +33,7 @@ public class Manager extends Application {
         Scene scene = new Scene(root, 800, 500);
 
         // Set stage
-        primaryStage.setTitle("Intelligent Lighting System Controller");
+        primaryStage.setTitle("Intelligent Lighting System MainController");
 
         // Show window
         primaryStage.setScene(scene);
