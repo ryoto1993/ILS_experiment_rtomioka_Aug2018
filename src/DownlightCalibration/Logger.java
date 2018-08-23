@@ -1,4 +1,4 @@
-package Calibration;
+package DownlightCalibration;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
